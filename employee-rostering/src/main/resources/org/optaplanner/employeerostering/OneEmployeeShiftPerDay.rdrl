@@ -1,0 +1,12 @@
+package org.optaplanner.employeerostering;
+
+import java.lang.Number;
+
+rule "OneEmployeeShiftPerDay"
+	dialect "mvel"
+	when
+		$shiftAssignment : ShiftAssignment( employee != null )
+		ShiftAssignment( this != $shiftAssignment , employee == $shiftAssignment.employee , shift.timeslot.startTime.toLocalDate() == $shiftAssignment.shift.timeslot.startTime.toLocalDate() )
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end

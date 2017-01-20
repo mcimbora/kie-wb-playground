@@ -1,0 +1,11 @@
+package org.optaplanner.employeerostering;
+
+import java.lang.Number;
+
+rule "ShiftRequiredSkillsAreMet"
+	dialect "mvel"
+	when
+		ShiftAssignment( employee != null , $requiredSkill : shift.requiredSkill, employee.skills excludes $requiredSkill )
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end

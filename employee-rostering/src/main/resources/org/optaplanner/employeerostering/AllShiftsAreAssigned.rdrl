@@ -1,0 +1,11 @@
+package org.optaplanner.employeerostering;
+
+import java.lang.Number;
+
+rule "AllShiftsAreAssigned"
+	dialect "mvel"
+	when
+		ShiftAssignment( employee == null )
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -10);
+end

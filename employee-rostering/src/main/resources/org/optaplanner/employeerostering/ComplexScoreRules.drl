@@ -1,0 +1,11 @@
+package org.optaplanner.employeerostering;
+
+rule "Employee10HourShiftSpace"
+    dialect "mvel"
+    when
+        $shiftAssignment : ShiftAssignment( $employee : employee != null, $shiftEndDateTime : shift.timeslot.endTime)
+        ShiftAssignment( this != $shiftAssignment, $employee == employee, $shiftEndDateTime <= shift.timeslot.endTime,
+                $shiftEndDateTime.until(shift.timeslot.startTime, java.time.temporal.ChronoUnit.HOURS) <10)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
